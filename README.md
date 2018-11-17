@@ -4,15 +4,15 @@ Monitoring brain waves in Meditative and Non-Meditative states using EEG with th
 
 # *TO DO:* # 
 
-1)Collection:
+##1. Collection:##
 [x]Collection of EEG amplitude data in 3 states: Meditative,     Casually Thinking and Reading a fiction novel (One test subject)
 [ ]Collection in Meditative state of second test subject
 
-2)Cleaning:
+##2. Cleaning:##
 [x]Resampling the  time-series data into intervels of 16 miliseconds 
 [ ]Smoothening the data and removing EEG artifacts
 
-3)Analysis:
+##3. Analysis:##
 [x]Performing Fast Fourier Transformation to produce Frequency-Amplitude data 
 [ ]Performing Wavelet transformation
 [ ]Using stock-market indicators for inference 
