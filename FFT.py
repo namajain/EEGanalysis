@@ -43,7 +43,9 @@ def prepareEEGdata(csv):
     df['diff1'] = df.fp2.diff()
     df['diff2'] = df.diff1.diff()
     df = df.dropna()
+    print(df)
     df = convertToDateIndexFromNum(df)
+    print(df)
 
     return df
 
@@ -62,12 +64,20 @@ def convertToDateIndexFromNum(df):
     return df
 
 
-def showHist(csv):
-    df = prepareEEGdata(csv)
+def showHist(df):
     df.hist(column='fp2', bins=1000)
     plt.show()
 
-showHist(MEDITATING_CSV)
+def resampleData(df,timeFrame, show):
+    resampledData= pandas.DataFrame()
+    resampledData['fp2'] = df.fp2.resample(timeFrame).mean()
+    if (show):
+        resampledData.plot()
+        plt.show()
+    return resampledData
+
+df = prepareEEGdata(MEDITATING_CSV)
+showHist(df)
 
 # plotFFT(MEDITATING_CSV)
 # plotFFT(THINKING_CSV)
