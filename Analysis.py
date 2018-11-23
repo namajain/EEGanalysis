@@ -7,9 +7,9 @@ import matplotlib.pyplot as plt
 CLIPDOWN = -600
 CLIPUP = 600
 
-THINKING_CSV = 'thinking.csv'
-READING_CSV = 'reading.csv'
-MEDITATING_CSV = 'meditating.csv'
+THINKING_CSV = 'data/thinking.csv'
+READING_CSV = 'data/reading.csv'
+MEDITATING_CSV = 'data/meditating.csv'
 
 FREQ = 256
 
