@@ -37,7 +37,6 @@ def plotFFT(csv):
     plt.title("FFT")
     plt.show()
 
-
 def prepareEEGdata(csv):
     df = pandas.read_csv(csv)
     df = df.dropna(how='all', axis=1)
@@ -54,8 +53,6 @@ def prepareEEGdata(csv):
 
     return df
 
-
-
 def convertToDateIndexFromNum(df):
     df = df.reset_index(drop=True)
     df['id'] = df.index
@@ -63,11 +60,9 @@ def convertToDateIndexFromNum(df):
     df.index = pandas.to_datetime(df.index, unit='s')
     return df
 
-
 def showHist(df):
     df.hist(column='fp2', bins=1000)
     plt.show()
-
 
 def resampleData(df, timeFrame, show):
     resampledData = pandas.DataFrame()
