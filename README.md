@@ -9,8 +9,9 @@ Monitoring brain waves in Meditative and Non-Meditative states using EEG with th
 - [ ] Collection in Meditative state of second test subject
 
 ### 2. Cleaning: ###
-- [x] Resampling the  time-series data into intervels of 16 miliseconds 
-- [ ] Smoothening the data and removing EEG artifacts
+- [x] Resampling the  time-series data into intervals of 16 miliseconds 
+- [ ] Smoothening the data
+- [ ] Removing EEG artifacts
 
 ### 3. Analysis: ###
 - [x] Performing Fast Fourier Transformation to produce Frequency-Amplitude data 
@@ -18,6 +19,12 @@ Monitoring brain waves in Meditative and Non-Meditative states using EEG with th
 - [ ] Using stock-market indicators for inference 
 - [ ] Identifying the smallest quantum to determine a meditative state
 - [ ] Building a classification tool to predict the brain states
+
+## Guidelines for data acquisition
+* Impedence should be less than 20 kilo ohms
+* Records should be saved in format **XYZZ** where X is the patient id, Y is the activity id and ZZ is the trial id
+* Pyplots should follow a uniform config- tight fit, frequency 0 - 80 and amplitude 0 - 500000
+* Duration should be around 10 mins and should use the data fron 0:15 - 9:15
 
 
 ## Observation Log
