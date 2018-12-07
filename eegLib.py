@@ -129,3 +129,11 @@ def genDataName(patient,activity,trial):
 
 def genImgLoc(csvLoc):
     return 'Plots/All' + csvLoc[4:-4] + '.png'
+def split_list(df, wanted_parts):
+    length = df.shape[0]
+    return [ df.iloc[i*length // wanted_parts: (i+1)*length // wanted_parts]
+             for i in range(wanted_parts) ]
+def plotFFT_split(splitList):
+    for x in splitList:
+        plotFFT(x)
+        plt.show()
