@@ -1,4 +1,4 @@
-import eegLib as el
+from eegLib import *
 
 
 
@@ -7,11 +7,19 @@ import eegLib as el
 
 
 
-csv = el.genDataName(2,1,1)
-dfMed = el.prepEEGdata(csv)
+csv = genDataName(2,1,2)
+dfMed = prepEEGdata(csv)
+
+
+
+
+
+generateAcfPlots(dfMed)
 # showHist(dfMed)
-rd=el.resampleData(dfMed,'4ms', False)
-el.doFFTcsv(csv,1,1)
+# rd=resampleData(dfMed,'4ms', False)
+# # doFFTcsv(csv,1,1)
 # plotFFT(MEDITATING_CSV)
 # plotFFT(THINKING_CSV)
 # plotFFT(READING_CSV)
+
+

@@ -2,6 +2,11 @@ import pandas
 import numpy as np
 import scipy.fftpack
 import matplotlib.pyplot as plt
+from pandas import Series
+from matplotlib import pyplot
+from statsmodels.graphics.tsaplots import plot_acf,plot_pacf
+
+
 
 CLIPDOWN = -600
 CLIPUP = 600
@@ -12,6 +17,14 @@ MEDITATING_CSV = 'Data/meditating.csv'
 MEDITATING2_CSV = 'Data/1002.csv'
 
 FREQ = 256
+
+#TODO Add autocorrelation
+
+
+
+
+
+
 
 
 
@@ -93,13 +106,24 @@ def showHist(df):
     plt.show()
 
 def resampleData(df, timeFrame, show):
-    resampledData = pandas.DataFrame()
-    resampledData['fp2'] = df.fp2.resample(timeFrame).mean()
+    resampledData = df.resample(timeFrame).mean()
     if show:
-        resampledData.plot()
+        plt.plot(df.index, df.fp2)
+        plt.plot(resampledData.index, resampledData.fp2)
         plt.show()
     return resampledData
 
+def generateAcfPlots(df, ts = '20ms'):
+    dfRes = resampleData(df, ts, False)
+    # plot_pacf(dfMed.fp2,lags=40)
+    # plot_pacf(dfMed2.fp2,lags=40)
+    fig, ax = plt.subplots()
+    plot_acf(df.fp2, lags=100, use_vlines=False, ax=ax, ls='solid')
+    plot_acf(dfRes.fp2, lags=100, use_vlines=False, ax=ax, ls='solid')
+    ax.legend(('4ms  - Original',ts+' - Downsampled'))
+    pyplot.show()
+
+    
 def genDataName(patient,activity,trial):
     return 'Data/' + '{0:01d}'.format(patient) + '{0:01d}'.format(activity) + '{0:02d}'.format(trial) + '.csv'
 

@@ -27,6 +27,3 @@ Monitoring brain waves in Meditative and Non-Meditative states using EEG with th
 * Duration should be around 10 mins and should use the data fron 0:15 - 9:15
 
 
-## Observation Log
-### 23rd November 2018
-For now, I'm able to identify meditative states by looking at the FFT transformation for 10 min long recordings, I think the next step should be to identify the smallest quantum of signal which can be used to reliably predict meditative states
