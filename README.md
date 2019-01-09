@@ -25,12 +25,14 @@ Monitoring brain waves in Meditative and Non-Meditative states using EEG with th
 ## Guidelines for data acquisition
 * Impedence should be less than 20 kilo ohms
 * Records should be saved in format **XYZZ** where X is the patient id, Y is the activity id and ZZ is the trial id
-    * X -> [ (1 : Naman), (2 : Dhaniya)]
-    * Y -> [ (1 : Reading), (2 : Thinking), (3 : Meditating)]
+    * X -> [ (1 : Naman), (2 : Dhaniya) ]
+    * Y -> [ (1 : Reading), (2 : Thinking), (3 : Meditating) ]
 * Pyplots for FFT should follow this uniform config - tight fit, frequency 0 - 80 and amplitude 0 - 500000
 * Duration should be around 10 mins and using the data from 0:15 - 9:15
 
 ## ChangeLog
+#### 9 Jan 2019
+* Added a very basic AM envelope detector. Need to optimize and refactor.
 #### 23 Dec 2018
 * Started ChangeLog
 * Added Dynamic Realtime Visualization of EEG Data
