@@ -5,8 +5,12 @@ import matplotlib.pyplot as plt
 from pandas import Series
 from matplotlib import pyplot
 from statsmodels.graphics.tsaplots import plot_acf,plot_pacf
-
-
+import seaborn as sns
+sns.set_style('white')
+import pprint as pp
+import scipy as sp
+from scipy import signal
+from scipy import interpolate
 
 CLIPDOWN = -600
 CLIPUP = 600
@@ -25,6 +29,10 @@ def doFFTcsv(csv,show,save):
     x = scipy.fftpack.fftfreq(yf.size, 1 / FREQ)
 
     fig, axes = plt.subplots()
+    fig.set_size_inches(19.3, 10.91)
+    mng = plt.get_current_fig_manager()
+    mng.window.showMaximized()
+    fig.tight_layout()
 
     xmin = 0
     xmax = 80
@@ -34,16 +42,12 @@ def doFFTcsv(csv,show,save):
     axes.set_ylim([ymin,ymax])
     axes.plot(np.abs(x), np.abs(yf))
 
-    fig.set_size_inches(19.3, 10.91)
-
     plt.xlabel("Frequency")
     plt.ylabel("Amplitude")
     plt.title("FFT")
 
-    mng = plt.get_current_fig_manager()
-    mng.window.showMaximized()
 
-    fig.tight_layout()
+
     if save:
         plt.savefig(genImgLoc(csv), bbox_inches='tight',dpi = 100)
     if show:
@@ -99,15 +103,14 @@ def showHist(df):
 # rd=resampleData(dfMed,'4ms', False)
 def resampleData(df, timeFrame, show):
     resampledData = df.resample(timeFrame).mean()
-    df['diff1'] = df.fp2.diff()
     if show:
         plt.plot(df.index, df.fp2)
         plt.plot(resampledData.index, resampledData.fp2)
         plt.show()
     return resampledData
+
 def resampleDataMax(df, timeFrame='16ms', show=False):
     resampledData = df.resample(timeFrame).max()
-    df['diff1'] = df.fp2.diff()
     if show:
         plt.plot(df.index, df.fp2)
         plt.plot(resampledData.index, resampledData.fp2)
@@ -161,3 +164,80 @@ def plotFFT_split(splitList):
     for x in splitList:
         doFFTdf(x)
         plt.show()
+
+def upEnvelope(inFrame):
+    inFrame['ldr'] = inFrame.fp2 - inFrame.fp2.shift(1)
+    inFrame['rdr'] = inFrame.fp2 - inFrame.fp2.shift(-1)
+    inFrame = inFrame.dropna()
+    rd2 = inFrame.drop(inFrame[(inFrame.ldr < 0) | (inFrame.rdr < 0)].index)
+    rd2 = rd2[['fp2']]
+    outFrame = resampleData(rd2, "3.906ms", False)
+    outFrame = outFrame.interpolate(method='quadratic')
+    return outFrame
+def loEnvelope(inFrame):
+    inFrame['ldr'] = inFrame.fp2 - inFrame.fp2.shift(1)
+    inFrame['rdr'] = inFrame.fp2 - inFrame.fp2.shift(-1)
+    inFrame = inFrame.dropna()
+    rd2 = inFrame.drop(inFrame[(inFrame.ldr > 0) | (inFrame.rdr > 0)].index)
+    rd2 = rd2[['fp2']]
+    outFrame = resampleData(rd2, "3.906ms", False)
+    outFrame = outFrame.interpolate(method='quadratic')
+    return outFrame
+###############EMD####################
+
+def emd(x, nIMF=3, stoplim=.001):
+    """Perform empirical mode decomposition to extract 'niMF' components out of the signal 'x'."""
+
+    r = x
+    t = np.arange(len(r))
+    imfs = np.zeros(nIMF, dtype=object)
+    for i in range(nIMF):
+        r_t = r
+        is_imf = False
+
+        while not is_imf :
+            # Identify peaks and troughs
+            pks = sp.signal.argrelmax(r_t)[0]
+            trs = sp.signal.argrelmin(r_t)[0]
+
+            # Interpolate extrema
+            pks_r = r_t[pks]
+            fip = sp.interpolate.InterpolatedUnivariateSpline(pks, pks_r, k=3)
+            pks_t = fip(t)
+
+            trs_r = r_t[trs]
+            fitr = sp.interpolate.InterpolatedUnivariateSpline(trs, trs_r, k=3)
+            trs_t = fitr(t)
+
+            # Calculate mean
+            mean_t = (pks_t + trs_t) / 2
+            mean_t = _emd_complim(mean_t, pks, trs)
+
+            # Assess if this is an IMF (only look in time between peaks and troughs)
+            sdk = _emd_comperror(r_t, mean_t, pks, trs)
+
+            # if not imf, update r_t and is_imf
+            if sdk < stoplim:
+                is_imf = True
+            else:
+                r_t = r_t - mean_t
+
+        imfs[i] = r_t
+        r = r - imfs[i]
+
+    return imfs
+
+
+def _emd_comperror(h, mean, pks, trs):
+    """Calculate the normalized error of the current component"""
+    samp_start = np.max((np.min(pks), np.min(trs)))
+    samp_end = np.min((np.max(pks), np.max(trs))) + 1
+    return np.sum(np.abs(mean[samp_start:samp_end] ** 2)) / np.sum(np.abs(h[samp_start:samp_end] ** 2))
+
+
+def _emd_complim(mean_t, pks, trs):
+    samp_start = np.max((np.min(pks), np.min(trs)))
+    samp_end = np.min((np.max(pks), np.max(trs))) + 1
+    mean_t[:samp_start] = mean_t[samp_start]
+    mean_t[samp_end:] = mean_t[samp_end]
+    return mean_t

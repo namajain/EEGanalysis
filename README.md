@@ -5,6 +5,7 @@ Monitoring brain waves in Meditative and Non-Meditative states using EEG with th
 ## ToDo: ## 
 
 ### 1. Collection: ###
+
 - [x] Collection of EEG amplitude data in 3 states: Meditative, Casually Thinking and Reading a fiction novel (One test subject)
 - [x] Collection in Meditative state of second test subject
 - [ ] Collection of Multi-Channel Data
@@ -17,7 +18,8 @@ Monitoring brain waves in Meditative and Non-Meditative states using EEG with th
 ### 3. Analysis: ###
 - [x] Performing Fast Fourier Transformation to produce Frequency-Amplitude data 
 - [x] Generating the autocorrelation plots
-- [x] Realtime stream visualization support
+- [x] Realtime stream visualization support with play and pause and multiple subplots
+- [x] Empirical mode decomposition support
 - [ ] Performing wavelet transformation
 - [ ] Performing amplitude modulation analysis 
 - [ ] Identifying the smallest quantum to determine a meditative state
@@ -31,6 +33,10 @@ Monitoring brain waves in Meditative and Non-Meditative states using EEG with th
 * Duration should be around 10 mins and using the data from 0:15 - 9:15
 
 ## ChangeLog
+#### 26 Jan 2019
+* Restructured the code with modules
+* Significantly enhanced the visualization module
+* Added basic support for Empirical Mode Decomposition
 #### 9 Jan 2019
 * Added a very basic AM envelope detector. Need to optimize and refactor.
 #### 23 Dec 2018
