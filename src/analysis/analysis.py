@@ -1,4 +1,4 @@
-from eegLib import *
+from src.lib.eegLib import *
 
 
 
@@ -10,7 +10,7 @@ from eegLib import *
 csv = genDataName(2,1,2)
 dfMed = prepEEGdata(csv)
 
-dfMed=dfMed.abs()
+# dfMed=dfMed.abs()
 x = dfMed.fp2.values[:1000]
 t = dfMed.index[:1000]
 imfs = emd(x, nIMF = 5)

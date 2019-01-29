@@ -33,10 +33,15 @@ Monitoring brain waves in Meditative and Non-Meditative states using EEG with th
 * Duration should be around 10 mins and using the data from 0:15 - 9:15
 
 ## ChangeLog
+#### 29 Jan 2019
+* Added EMD Realtime Visualization
+![Image of emdViz](https://github.com/namajain/EEGanalysis/raw/master/Plots/EMD/test.png)
 #### 26 Jan 2019
 * Restructured the code with modules
 * Significantly enhanced the visualization module
 * Added basic support for Empirical Mode Decomposition
+![Image of baseViz](https://github.com/namajain/EEGanalysis/raw/master/Plots/Realtime/test.png)
+
 #### 9 Jan 2019
 * Added a very basic AM envelope detector. Need to optimize and refactor.
 #### 23 Dec 2018
@@ -54,5 +59,5 @@ Monitoring brain waves in Meditative and Non-Meditative states using EEG with th
 * Added FFT Plots
 * Added base interface for cleaning and loading the data
 
-
-
+![Image of ACF](https://github.com/namajain/EEGanalysis/raw/master/Plots/Autocorrelation/ACF_without_resampling.png)
+![Image of FFT](https://github.com/namajain/EEGanalysis/raw/master/Plots/All/2101.png)

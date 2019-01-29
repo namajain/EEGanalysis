@@ -147,7 +147,7 @@ def generateAcfPlotsDiff(df, ts = '20ms'):
 
     
 def genDataName(patient,activity,trial):
-    return 'Data/' + '{0:01d}'.format(patient) + '{0:01d}'.format(activity) + '{0:02d}'.format(trial) + '.csv'
+    return '../../Data/' + '{0:01d}'.format(patient) + '{0:01d}'.format(activity) + '{0:02d}'.format(trial) + '.csv'
 
 
 def genImgLoc(csvLoc):
@@ -174,6 +174,7 @@ def upEnvelope(inFrame):
     outFrame = resampleData(rd2, "3.906ms", False)
     outFrame = outFrame.interpolate(method='quadratic')
     return outFrame
+
 def loEnvelope(inFrame):
     inFrame['ldr'] = inFrame.fp2 - inFrame.fp2.shift(1)
     inFrame['rdr'] = inFrame.fp2 - inFrame.fp2.shift(-1)
