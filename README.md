@@ -20,8 +20,8 @@ Monitoring brain waves in Meditative and Non-Meditative states using EEG with th
 - [x] Generating the autocorrelation plots
 - [x] Realtime stream visualization support with play and pause and multiple subplots
 - [x] Empirical mode decomposition support
+- [x] Performing amplitude modulation analysis 
 - [ ] Performing wavelet transformation
-- [ ] Performing amplitude modulation analysis 
 - [ ] Identifying the smallest quantum to determine a meditative state
 
 ## Guidelines for data acquisition
@@ -35,7 +35,7 @@ Monitoring brain waves in Meditative and Non-Meditative states using EEG with th
 ## ChangeLog
 #### 29 Jan 2019
 * Added EMD Realtime Visualization
-![Image of emdViz](https://github.com/namajain/EEGanalysis/raw/master/Plots/EMD/test.png)
+![Image of emdViz](https://github.com/namajain/EEGanalysis/raw/master/Plots/EMD/test.gif)
 #### 26 Jan 2019
 * Restructured the code with modules
 * Significantly enhanced the visualization module

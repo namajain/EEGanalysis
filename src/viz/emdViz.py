@@ -15,7 +15,7 @@ CMAP=plt.get_cmap('inferno').colors
 
 
 
-def dynamicDataPlot():
+def emdPlot():
     fig, ax = plt.subplots(nrows=NCOMP+1, sharex=True, sharey=True)
     fig.set_facecolor('xkcd:light blue')
     fig.set_size_inches(19.3, 10.91)
@@ -60,7 +60,8 @@ def dynamicDataPlot():
                                              repeat=False)
     plt.show()
 
-dynamicDataPlot()
+if __name__ == '__main__':
+    emdPlot()
 
 
 

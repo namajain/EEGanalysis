@@ -5,8 +5,10 @@ import matplotlib.animation
 csv = '../../'+MEDITATING_CSV
 dfM = prepEEGdata(csv)
 rd = dfM
-rdres2 = upEnvelope(upEnvelope(rd))
-rdres = loEnvelope(loEnvelope(rd))
+# rdres2 = upEnvelope(upEnvelope(rd))
+# rdres = loEnvelope(loEnvelope(rd))
+rdres2 =upEnvelope(rd)
+rdres = loEnvelope(rd)
 rdiff=rdres2.sub(rdres.fp2,axis=0)
 FPLOT = 10
 XRAN = 1280

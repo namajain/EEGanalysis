@@ -11,6 +11,9 @@ import pprint as pp
 import scipy as sp
 from scipy import signal
 from scipy import interpolate
+from PyEMD import EEMD,CEEMDAN
+import pickle
+import sys
 
 CLIPDOWN = -600
 CLIPUP = 600
@@ -58,15 +61,22 @@ def doFFTdf(df):
     x = scipy.fftpack.fftfreq(yf.size, 1 / FREQ)
 
     fig, axes = plt.subplots()
+    # fig.set_size_inches(19.3, 10.91)
+    mng = plt.get_current_fig_manager()
+    mng.window.showMaximized()
+    fig.tight_layout()
+
+    xmin = 0
+    xmax = 80
+    axes.set_xlim([xmin, xmax])
+    ymin = 0
+    ymax = 500000
+    axes.set_ylim([ymin, ymax])
+    axes.plot(np.abs(x), np.abs(yf))
 
     plt.xlabel("Frequency")
     plt.ylabel("Amplitude")
     plt.title("FFT")
-
-    mng = plt.get_current_fig_manager()
-    mng.window.showMaximized()
-
-    fig.tight_layout()
     plt.show()
 
 def prepEEGdata(csv):
@@ -145,9 +155,14 @@ def generateAcfPlotsDiff(df, ts = '20ms'):
 
     pyplot.show()
 
-    
+def inIpy():
+    # return True if 'IPython' in sys.modules else False
+    return False
+
 def genDataName(patient,activity,trial):
-    return '../../Data/' + '{0:01d}'.format(patient) + '{0:01d}'.format(activity) + '{0:02d}'.format(trial) + '.csv'
+    cd = 'Data/{0:01d}'.format(patient) + '{0:01d}'.format(activity) + '{0:02d}'.format(trial) + '.csv'
+    return cd if inIpy() else '../../' + cd
+
 
 
 def genImgLoc(csvLoc):
@@ -184,6 +199,8 @@ def loEnvelope(inFrame):
     outFrame = resampleData(rd2, "3.906ms", False)
     outFrame = outFrame.interpolate(method='quadratic')
     return outFrame
+
+
 ###############EMD####################
 
 def emd(x, nIMF=3, stoplim=.001):
@@ -242,3 +259,6 @@ def _emd_complim(mean_t, pks, trs):
     mean_t[:samp_start] = mean_t[samp_start]
     mean_t[samp_end:] = mean_t[samp_end]
     return mean_t
+
+
+##################EMD by PYEMD #########################
