@@ -35,7 +35,7 @@ Monitoring brain waves in Meditative and Non-Meditative states using EEG with th
 ## ChangeLog
 #### 29 Jan 2019
 * Added EMD Realtime Visualization
-![Image of emdViz](https://github.com/namajain/EEGanalysis/raw/master/Plots/EMD/test.gif)
+![Image of emdViz](https://github.com/namajain/EEGanalysis/raw/master/Plots/Realtime/test.gif)
 #### 26 Jan 2019
 * Restructured the code with modules
 * Significantly enhanced the visualization module
