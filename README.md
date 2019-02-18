@@ -24,15 +24,12 @@ Monitoring brain waves in Meditative and Non-Meditative states using EEG with th
 - [ ] Performing wavelet transformation
 - [ ] Identifying the smallest quantum to determine a meditative state
 
-## Guidelines for data acquisition
-* Impedence should be less than 20 kilo ohms
-* Records should be saved in format **XYZZ** where X is the patient id, Y is the activity id and ZZ is the trial id
-    * X -> [ (1 : Naman), (2 : Dhaniya) ]
-    * Y -> [ (1 : Reading), (2 : Thinking), (3 : Meditating) ]
-* Pyplots for FFT should follow this uniform config - tight fit, frequency 0 - 80 and amplitude 0 - 500000
-* Duration should be around 10 mins and using the data from 0:15 - 9:15
 
 ## ChangeLog
+#### 18 Feb 2019
+* Restructured Visualization module with classes
+* Added EMD difference analysis, for the tested usecase imfs seem to correspond with EEG bands like alpha and beta, need to confirm
+* Added an experimental blit visualization which renders the plot 4X faster, need to fine tune it 
 #### 29 Jan 2019
 * Added EMD Realtime Visualization
 ![Image of emdViz](https://github.com/namajain/EEGanalysis/raw/master/Plots/EMD/test.gif)
@@ -61,3 +58,11 @@ Monitoring brain waves in Meditative and Non-Meditative states using EEG with th
 
 ![Image of ACF](https://github.com/namajain/EEGanalysis/raw/master/Plots/Autocorrelation/ACF_without_resampling.png)
 ![Image of FFT](https://github.com/namajain/EEGanalysis/raw/master/Plots/All/2101.png)
+
+## Guidelines for data acquisition
+* Impedence should be less than 20 kilo ohms
+* Records should be saved in format **XYZZ** where X is the patient id, Y is the activity id and ZZ is the trial id
+    * X -> [ (1 : Naman), (2 : Dhaniya) ]
+    * Y -> [ (1 : Reading), (2 : Thinking), (3 : Meditating) ]
+* Pyplots for FFT should follow this uniform config - tight fit, frequency 0 - 80 and amplitude 0 - 500000
+* Duration should be around 10 mins and using the data from 0:15 - 9:15

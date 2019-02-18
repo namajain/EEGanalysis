@@ -11,7 +11,7 @@ import pprint as pp
 import scipy as sp
 from scipy import signal
 from scipy import interpolate
-from PyEMD import EEMD,CEEMDAN
+# from PyEMD import EEMD,CEEMDAN
 import pickle
 import sys
 
@@ -74,10 +74,43 @@ def doFFTdf(df):
     axes.set_ylim([ymin, ymax])
     axes.plot(np.abs(x), np.abs(yf))
 
-    plt.xlabel("Frequency")
-    plt.ylabel("Amplitude")
-    plt.title("FFT")
+
     plt.show()
+
+def doFFTcompare(df,df2):
+    yf = scipy.fft(df.fp2.values)
+    yf2 = scipy.fft(df2.fp2.values)
+    x = scipy.fftpack.fftfreq(yf.size, 1 / FREQ)
+
+    fig, axes = plt.subplots(nrows=2, sharex=True, sharey=True)
+    # fig.set_size_inches(19.3, 10.91)
+    fftStdSettings(fig)
+    plt.sca(axes[0])
+    plt.title("FFT")
+    plt.ylabel("Amplitude")
+
+    plt.plot(np.abs(x), np.abs(yf))
+    plt.ylabel("Amplitude")
+    plt.sca(axes[1])
+    plt.plot(np.abs(x), np.abs(yf2))
+    plt.show()
+
+def fftStdSettings(fig):
+    mng = plt.get_current_fig_manager()
+    mng.window.showMaximized()
+    # fig.set_size_inches(18.3, 10.91)
+    fig.tight_layout()
+    xmin = 0
+    xmax = 80
+    plt.xlim(xmin, xmax)
+    ymin = 0
+    ymax = 500000
+    plt.ylim(ymin, ymax)
+    fig.set_facecolor('xkcd:light blue')
+    # print(plt.style.available)
+    plt.style.use('ggplot')
+    plt.xlabel("Frequency")
+
 
 def prepEEGdata(csv):
     df = pandas.read_csv(csv)
@@ -243,7 +276,7 @@ def emd(x, nIMF=3, stoplim=.001):
         imfs[i] = r_t
         r = r - imfs[i]
 
-    return imfs
+    return imfs,r
 
 
 def _emd_comperror(h, mean, pks, trs):

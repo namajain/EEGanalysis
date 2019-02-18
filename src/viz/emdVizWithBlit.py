@@ -3,7 +3,7 @@ import seaborn as sns
 import matplotlib.animation
 
 
-class emdViz():
+class emdVizBlit():
 
     def __init__(self, rd=None, csv=None, ncomp=5, fplot=20, xran=128,fa=.8):
         if rd is not None:
@@ -28,6 +28,13 @@ class emdViz():
         fig.tight_layout()
         plt.style.use('seaborn-whitegrid')
 
+        def getColor(j):
+            return self.cMap[(len(self.cMap) - 1) // (self.nComp + 2) * (j)]
+        def getLine(axe):
+
+            ln, = axe.plot([], [], color=getColor(0), animated=True)
+            return ln
+        lines=[getLine(axe) for axe in ax]
         anim_running = True
 
         def absanimate(i):
@@ -39,6 +46,7 @@ class emdViz():
             plotBaseSignal(i)
             plotImfSignal(i)
             plotResidueSignal(i)
+            return lines
 
         def onClick(event):
             nonlocal anim_running
@@ -56,12 +64,13 @@ class emdViz():
             nonlocal ax
 
             # plt.sca(ax[0])
-            ax[0].plot(self.rd.index[i * self.nPoints:i * self.nPoints + self.nPoints + 1],
-                     self.rd.fp2[int(i) * self.nPoints:int(i + 1) * self.nPoints + 1].tolist(),
-                     color=self.cMap[0], label='FP2 Signal')
+            lines[0].set_data(self.rd.index[0:i * self.nPoints + self.nPoints + 1],
+                     self.rd.fp2[0:int(i + 1) * self.nPoints + 1].tolist())
+
             if isRedrawIter(i):
                 ax[0].legend(['FP2 Signal'])
             # drawLegend(i)
+
 
         def drawLegend(i):
             if isRedrawIter(i):
@@ -72,23 +81,20 @@ class emdViz():
         def plotResidueSignal(i):
             nonlocal ax
             # plt.sca(ax[self.nComp + 1])
-            ax[self.nComp + 1].plot(self.rd.index[i * self.nPoints:i * self.nPoints + self.nPoints + 1],
-                     self.residue[int(i) * self.nPoints:int(i + 1) * self.nPoints + 1].tolist(),
-                     c=getColor(self.nComp + 1), label='Residue ')
+            lines[self.nComp + 1].set_data(self.rd.index[:i * self.nPoints + self.nPoints + 1],
+                     self.residue[:int(i + 1) * self.nPoints + 1].tolist())
             if isRedrawIter(i):
                 ax[self.nComp + 1].legend(['Residue'])
 
         def plotImfSignal(i):
             nonlocal ax
             for j in range(0, self.nComp):
-                ax[j + 1].plot(self.rd.index[i * self.nPoints:i * self.nPoints + self.nPoints + 1],
-                         self.imfs[j][int(i) * self.nPoints:int(i + 1) * self.nPoints + 1].tolist(),
-                         c=getColor(j+1), label='IMF ' + str(j))
+                lines[j+1].set_data(self.rd.index[:i * self.nPoints + self.nPoints + 1],
+                         self.imfs[j][:int(i + 1) * self.nPoints + 1].tolist())
                 if isRedrawIter(i):
                     ax[j+1].legend(['IMF ' + str(j)])
 
-        def getColor(j):
-            return self.cMap[(len(self.cMap) - 1) // (self.nComp + 2) * (j)]
+
 
         def redrawPlotOutline(i):
             for xes in plt.gcf().get_axes():
@@ -100,10 +106,10 @@ class emdViz():
         fig.canvas.mpl_connect('key_press_event', onClick)
         anim = matplotlib.animation.FuncAnimation(fig, absanimate, frames=len(self.rd) // self.nPoints,
                                                   interval=self.nPoints / 256*self.freqAdjust,
-                                                  repeat=False)
+                                                  repeat=False,blit=True)
         plt.show()
 
 
 if __name__ == '__main__':
-    ev = emdViz()
+    ev = emdVizBlit()
     ev.emdPlot()

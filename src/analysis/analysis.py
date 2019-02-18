@@ -6,19 +6,22 @@ if __name__ == '__main__':
     # with open('imf.pkl', 'rb') as input:
     #     imfs = pickle.load(input)
     # dfMed=dfMed.abs()
-    dfMed=dfMed[:20000]
-    import time
-
-    start = time.time()
-    eemd = EEMD(trials=8)
-    imfs = eemd.eemd(dfMed.fp2.values, max_imf=5)
-    rdiff = dfMed.sub(imfs[4], axis=0)
-    end = time.time()
-    print(end - start)
-
-
-    doFFTdf(dfMed)
-    doFFTdf(rdiff)
+    # dfMed=dfMed[:20000]
+    # import time
+    #
+    # start = time.time()
+    # eemd = EEMD(trials=8)
+    # imfs = eemd.eemd(dfMed.fp2.values, max_imf=5)
+    imfs,res = emd(dfMed.fp2.values, nIMF=5)
+    rdiff = dfMed.sub(res, axis=0)
+    # rdiff=rdiff.sub(imfs[3], axis=0)
+    # rdiff=rdiff.sub(imfs[2], axis=0)
+    # rdiff=rdiff.sub(imfs[1], axis=0)
+    # rdiff=rdiff.sub(imfs[0], axis=0)
+    # end = time.time()
+    # print(end - start)
+    plt.style.use('seaborn-whitegrid')
+    doFFTcompare(dfMed,rdiff)
     # # imfs = emd(x, nIMF = 5)
     #
     # ceemdan = CEEMDAN(trials=8)
