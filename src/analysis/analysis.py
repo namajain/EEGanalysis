@@ -1,7 +1,7 @@
 if __name__ == '__main__':
     from src.lib.eegLib import *
     print('meow')
-    csv = genDataName(2, 1, 2)
+    csv = genDataName(2, 2, 2)
     dfMed = prepEEGdata(csv)
     # with open('imf.pkl', 'rb') as input:
     #     imfs = pickle.load(input)
@@ -22,6 +22,9 @@ if __name__ == '__main__':
     # print(end - start)
     plt.style.use('seaborn-whitegrid')
     doFFTcompare(dfMed,rdiff)
+    for i in imfs:
+        rdiff = dfMed.sub(i, axis=0)
+        doFFTcompare(dfMed, rdiff)
     # # imfs = emd(x, nIMF = 5)
     #
     # ceemdan = CEEMDAN(trials=8)

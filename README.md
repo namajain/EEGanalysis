@@ -9,11 +9,15 @@ Monitoring brain waves in Meditative and Non-Meditative states using EEG with th
 - [x] Collection of EEG amplitude data in 3 states: Meditative, Casually Thinking and Reading a fiction novel (One test subject)
 - [x] Collection in Meditative state of second test subject
 - [ ] Collection of Multi-Channel Data
+- [ ] Collection of Data from experienced meditators with 2+ years of practice
+- [ ] Collection of annotated mind wandering data
+
 
 ### 2. Cleaning: ###
 - [x] Resampling the  time-series data into intervals of 16 miliseconds 
 - [x] Smoothening the data
-- [ ] Removing EEG artifacts
+- [ ] Removing EEG artifacts like emg, eog, power line interference
+- [ ] Using Blind source serperation, ICA decomposition
 
 ### 3. Analysis: ###
 - [x] Performing Fast Fourier Transformation to produce Frequency-Amplitude data 
@@ -22,10 +26,17 @@ Monitoring brain waves in Meditative and Non-Meditative states using EEG with th
 - [x] Empirical mode decomposition support
 - [x] Performing amplitude modulation analysis 
 - [ ] Performing wavelet transformation
+- [ ] Band pass filtering 
+- [ ] Visualizing real time data in terms of commonly used frequency bands
 - [ ] Identifying the smallest quantum to determine a meditative state
 
 
 ## ChangeLog
+
+#### 23 Feb 2019
+* Updated the blitting code, much better performance in realtime viz now
+* Added EMD difference analysis and plots 
+![Image of diffPlot](https://github.com/namajain/EEGanalysis/raw/master/Plots/EMD/diffImf3.png)
 #### 18 Feb 2019
 * Restructured Visualization module with classes
 * Added EMD difference analysis, for the tested usecase imfs seem to correspond with EEG bands like alpha and beta, need to confirm
